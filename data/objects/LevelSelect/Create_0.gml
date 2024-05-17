@@ -1,0 +1,1 @@
+global.LevelSelected=0;
