@@ -10,8 +10,8 @@
   "name":"Camera",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objects",
-    "path":"folders/Objects.yy",
+    "name":"Parsing",
+    "path":"folders/Objects/Parsing.yy",
   },
   "parentObjectId":null,
   "persistent":false,

@@ -3,6 +3,7 @@ buffer_seek(buffer, buffer_seek_start, ds_list_find_value(BlockHunter.BlockOffse
 TextureSheet = ds_list_create()
 TextureNameList = ds_list_create()
 SheetFlipper=0
+toggle=false
 
 start_time = get_timer();
 

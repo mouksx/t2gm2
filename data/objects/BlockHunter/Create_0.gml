@@ -18,3 +18,4 @@ do{
 }
 until (buffer_peek(buffer,cursor,buffer_u32) == undefined)
 show_debug_message("Time Taken To Hunt Blocks: "+string((get_timer() - piss)/1000000)+" Seconds")
+show_debug_message(ds_list_find_value(BlockOffsets,ds_list_find_index(BlockValues,"257")))

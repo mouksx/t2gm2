@@ -3,7 +3,7 @@ buffer_seek(buffer, buffer_seek_start, ds_list_find_value(BlockHunter.BlockOffse
 
 GeometryData=ds_list_create()
 
-repeat(ds_list_size(NGNTextureLoader.TextureSheet)){
+repeat(ds_list_size(NGNTextureLoader.TextureSheet)+1){
 	ds_list_add(GeometryData,ds_list_create())
 }
 
@@ -12,6 +12,11 @@ Timer=get_timer()
 Block = buffer_read(buffer,buffer_u32)
 BlockLength = buffer_read(buffer,buffer_u32)
 ShapeCount = buffer_read(buffer,buffer_u32)
+
+
+
+
+
 
 for (i=0; ShapeCount > i; i++;){ //For Each Shape
 	TempTexData=ds_list_create()
@@ -85,10 +90,10 @@ for (i=0; ShapeCount > i; i++;){ //For Each Shape
 				ds_list_add(CurrentVert,buffer_read(buffer,buffer_f32)) //nx?
 				ds_list_add(CurrentVert,buffer_read(buffer,buffer_f32)) //ny?
 				ds_list_add(CurrentVert,buffer_read(buffer,buffer_f32)) //nz?
-				buffer_read(buffer,buffer_u8)
-				buffer_read(buffer,buffer_u8)
-				buffer_read(buffer,buffer_u8)
-				buffer_read(buffer,buffer_u8)
+				ds_list_add(CurrentVert,buffer_read(buffer,buffer_u8)) //a
+				ds_list_add(CurrentVert,buffer_read(buffer,buffer_u8)) //r
+				ds_list_add(CurrentVert,buffer_read(buffer,buffer_u8)) //g
+				ds_list_add(CurrentVert,buffer_read(buffer,buffer_u8)) //b
 				ds_list_add(CurrentVert,buffer_read(buffer,buffer_f32)) //uvx
 				ds_list_add(CurrentVert,buffer_read(buffer,buffer_f32)) //uvy
 			}
@@ -108,13 +113,135 @@ for (i=0; ShapeCount > i; i++;){ //For Each Shape
 				}
 				PrimativeVertexCount = buffer_read(buffer,buffer_u16)
 				TempSortedVert=ds_list_create()
-				for (c=0; c<PrimativeVertexCount; c++){
-					CurrentVert=ds_list_find_value(TempVertData,buffer_read(buffer,buffer_u16))
-					for (g=0;g<ds_list_size(CurrentVert);g++){
-							ds_list_add(TempSortedVert,ds_list_find_value(CurrentVert,g))
-					}		
+				index=0
+				
+				
+				
+				
+				if PrimativeType==5{
+					PrimativeType=9
+					check=0
+					DoubleTemp=ds_list_create()
+					for (c=0;c<PrimativeVertexCount;c++){
+						check+=1
+						VertPos=buffer_read(buffer,buffer_u16)
+						if check==1{
+							v1=VertPos	
+						}
+						if check==2{
+							v2=VertPos
+						}
+						if check==3{
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,VertPos))
+						}
+						ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,VertPos))
+						if check==5{
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,v1))
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,v2))
+							check=0
+						}
+						
+					}
+					plswork=ds_list_size(DoubleTemp)
+						for (d=0; d<plswork;d++){
+							CurrentVert=ds_list_find_value(DoubleTemp,d)
+							for (g=0;g<ds_list_size(CurrentVert);g++){
+									ds_list_add(TempSortedVert,ds_list_find_value(CurrentVert,g))
+							}
+						}
+						ds_list_destroy(DoubleTemp)
 				}
-				ds_list_add(CurrentTexture,newvbuffer(TempSortedVert,PrimativeType))
+				
+				else if PrimativeType==6{
+					PrimativeType=9
+					check=0
+					DoubleTemp=ds_list_create()
+					for (c=0;c<PrimativeVertexCount;c++){
+						check+=1
+						VertPos=buffer_read(buffer,buffer_u16)
+						if check==1{
+							v1=VertPos	
+						}
+						if check==2{
+							v2=VertPos
+						}
+						if check==3{
+							v3=VertPos
+						}
+						if check==4{
+							v4=VertPos
+						}
+						if check==5{
+							v5=VertPos
+						}
+						if check==6{
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,v1))
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,v2))
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,v3))
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,v3))
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,v1))
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,VertPos))
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,VertPos))
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,v3))
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,v4))
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,v4))
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,v5))
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,VertPos))
+							check=0
+						}
+						
+					}
+					plswork=ds_list_size(DoubleTemp)
+						for (d=0; d<plswork;d++){
+							CurrentVert=ds_list_find_value(DoubleTemp,d)
+							for (g=0;g<ds_list_size(CurrentVert);g++){
+									ds_list_add(TempSortedVert,ds_list_find_value(CurrentVert,g))
+							}
+						}
+						ds_list_destroy(DoubleTemp)
+				}
+				
+				
+				else if PrimativeType==4{
+					PrimativeType=9
+					check=0
+					DoubleTemp=ds_list_create()
+					for (c=0; c<PrimativeVertexCount; c++){
+						check+=1
+						VertPos=buffer_read(buffer,buffer_u16)
+						if check==1{
+							v1=VertPos
+						}
+						if check==3{
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,VertPos))
+						}
+						
+						ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,VertPos))
+						
+						if check==4{
+							ds_list_add(DoubleTemp,ds_list_find_value(TempVertData,v1))
+							check=0
+						}
+					}
+					plswork=ds_list_size(DoubleTemp)
+					for (d=0; d<plswork;d++){
+						CurrentVert=ds_list_find_value(DoubleTemp,d)
+						for (g=0;g<ds_list_size(CurrentVert);g++){
+								ds_list_add(TempSortedVert,ds_list_find_value(CurrentVert,g))
+						}
+					}
+					ds_list_destroy(DoubleTemp)
+				}
+				else{
+					for (c=0; c<PrimativeVertexCount; c++){
+						CurrentVert=ds_list_find_value(TempVertData,buffer_read(buffer,buffer_u16))
+						for (g=0;g<ds_list_size(CurrentVert);g++){
+								ds_list_add(TempSortedVert,ds_list_find_value(CurrentVert,g))
+						}		
+					}
+				}
+				
+				ds_list_add(CurrentTexture,newvbuffer(TempSortedVert,PrimativeType,i))
 				ds_list_destroy(TempSortedVert)
 			}
 			buffer_read(buffer,buffer_u64) //8 Byte Padding at the end of a Shape
