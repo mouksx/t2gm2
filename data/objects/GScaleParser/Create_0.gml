@@ -17,7 +17,7 @@ for (i=0; ShapeCount > i; i++;){
 		ds_list_add(CurrentShape,buffer_read(buffer,buffer_f32))//xyz trans
 	}
 	repeat(3){
-		ds_list_add(CurrentShape,buffer_read(buffer,buffer_u32))//xyz rotation
+		ds_list_add(CurrentShape,buffer_read(buffer,buffer_f32))//xyz rotation
 	}
 	repeat(3){
 		ds_list_add(CurrentShape,buffer_read(buffer,buffer_f32))//xyz scale
