@@ -8,29 +8,29 @@ if (keyboard_check(vk_escape)){
 }
 
 if (keyboard_check(ord("A"))){
-	x -= dsin(direction) * 30;
-	y -= dcos(direction) * 30;
+	x -= dsin(direction) * 100;
+	y -= dcos(direction) * 100;
 }
 
 if (keyboard_check(ord("1"))){
-	z+=30;
+	z+=100;
 }
 
 if (keyboard_check(ord("3"))){
-	z-=30;
+	z-=100;
 }
 
 if (keyboard_check(ord("S"))){
-	x -= dcos(direction) * 30;
-	y += dsin(direction) * 30;
+	x -= dcos(direction) * 100;
+	y += dsin(direction) * 100;
 }
 
 if (keyboard_check(ord("D"))){
-	x += dsin(direction) * 30;
-	y += dcos(direction) * 30;
+	x += dsin(direction) * 100;
+	y += dcos(direction) * 100;
 }
 
 if (keyboard_check(ord("W"))){
-	x += dcos(direction) * 30;
-	y -= dsin(direction) * 30;
+	x += dcos(direction) * 100;
+	y -= dsin(direction) * 100;
 }

@@ -52,3 +52,5 @@ for (var m = 0; m < TextureAmount; m++) {
 	surface_free(surf)
 }
 show_debug_message("Time Taken To Load Textures: "+string((get_timer() - start_time)/1000000)+" Seconds")
+
+buffer_delete(buffer)

@@ -3,10 +3,6 @@ buffer_seek(buffer, buffer_seek_start, ds_list_find_value(BlockHunter.BlockOffse
 
 GeometryData=ds_list_create()
 
-repeat(ds_list_size(NGNTextureLoader.TextureSheet)+1){
-	ds_list_add(GeometryData,ds_list_create())
-}
-
 Timer=get_timer()
 
 Block = buffer_read(buffer,buffer_u32)
@@ -19,10 +15,14 @@ ShapeCount = buffer_read(buffer,buffer_u32)
 
 
 for (i=0; ShapeCount > i; i++;){ //For Each Shape
+	ds_list_add(GeometryData,ds_list_create())
+	CurrentShape=ds_list_find_value(GeometryData,i)
+	
 	TempTexData=ds_list_create()
 	TempMatData=ds_list_create()
 	TempVertData=ds_list_create()
 	TempPrimData=ds_list_create()
+	
 	for (k=0; 5>k; k++){ //ShapeName, ShapeTextures, ShapeMaterial, ShapeVertexData, ShapePrimatives
 		SubBlock=buffer_read(buffer,buffer_u32)
 		if SubBlock == 64{ //ShapeName (Not Being Used)
@@ -106,10 +106,10 @@ for (i=0; ShapeCount > i; i++;){ //For Each Shape
 				PrimativeType = buffer_read(buffer,buffer_u32)
 				TIndex=buffer_read(buffer,buffer_u16)
 				if ds_list_find_value(TempMatData,TIndex) != -1{
-					CurrentTexture = ds_list_find_value(GeometryData,ds_list_find_index(NGNTextureLoader.TextureNameList,ds_list_find_value(TempTexData,ds_list_find_value(TempMatData,TIndex))))
+					CurrentTexture = ds_list_find_index(NGNTextureLoader.TextureNameList,ds_list_find_value(TempTexData,ds_list_find_value(TempMatData,TIndex)))
 				}
 				else{
-					CurrentTexture = ds_list_find_value(GeometryData,ds_list_size(GeometryData)-1)
+					CurrentTexture = -1
 				}
 				PrimativeVertexCount = buffer_read(buffer,buffer_u16)
 				TempSortedVert=ds_list_create()
@@ -241,7 +241,7 @@ for (i=0; ShapeCount > i; i++;){ //For Each Shape
 					}
 				}
 				
-				ds_list_add(CurrentTexture,newvbuffer(TempSortedVert,PrimativeType,i))
+				ds_list_add(CurrentShape,newvbuffer(TempSortedVert,PrimativeType,CurrentTexture))
 				ds_list_destroy(TempSortedVert)
 			}
 			buffer_read(buffer,buffer_u64) //8 Byte Padding at the end of a Shape
@@ -252,5 +252,6 @@ for (i=0; ShapeCount > i; i++;){ //For Each Shape
 		}
 	}
 }
+buffer_delete(buffer)
 
 show_debug_message("Time Taken To Parse Geometry: "+string((get_timer() - Timer)/1000000)+" Seconds")

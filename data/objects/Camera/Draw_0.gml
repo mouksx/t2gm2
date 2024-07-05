@@ -7,4 +7,5 @@ camera_set_proj_mat(camera, matrix_build_projection_perspective_fov(-60, -window
 camera_apply(camera);
 
 // Anything drawn has to be drawn after the camera projections are set
-with (GameObject) event_perform(ev_draw, 0);
+with (StaticRender) event_perform(ev_draw, 0);
+with (GhostPizzaPlanetToken) event_perform(ev_draw, 0);

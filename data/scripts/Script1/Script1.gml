@@ -3,11 +3,18 @@
 function newvbuffer(argument0,argument1,argument2){
 	vbuffer=vertex_create_buffer()
 	poo=argument0
-	vertex_begin(vbuffer,Camera.format)
+	vertex_format_begin();
+	vertex_format_add_position_3d();
+	vertex_format_add_normal();
+	vertex_format_add_color();
+	vertex_format_add_texcoord();
+	format = vertex_format_end();
+	vertex_begin(vbuffer,format)
 	offset=0
 	count=0
 	count2=0
 	vertcount=ds_list_size(argument0)/12
+	trans=false
 	
 	/*repeat(vertcount){
 		if count==0 and vertcount!=1{
@@ -76,6 +83,9 @@ function newvbuffer(argument0,argument1,argument2){
 		vertex_position_3d(vbuffer,-ds_list_find_value(poo,offset),ds_list_find_value(poo,offset+2),-ds_list_find_value(poo,offset+1))
 		vertex_normal(vbuffer,ds_list_find_value(poo,offset+3),ds_list_find_value(poo,offset+4),ds_list_find_value(poo,offset+5))
 		vertex_color(vbuffer,colour,ds_list_find_value(poo,offset+6)/255)
+		if ds_list_find_value(poo,offset+6)!=255{
+			trans=true
+		}
 		vertex_texcoord(vbuffer,ds_list_find_value(poo,offset+10),1-ds_list_find_value(poo,offset+11))
 	}
 	
@@ -84,5 +94,5 @@ function newvbuffer(argument0,argument1,argument2){
 	
 	
 	vertex_end(vbuffer)
-	return([vbuffer,argument1,argument2])
+	return([vbuffer,argument1,argument2,trans])
 }
