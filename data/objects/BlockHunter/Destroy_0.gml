@@ -1,3 +1,0 @@
-ds_list_destroy(BlockOffsets)
-ds_list_destroy(BlockValues)
-ds_list_destroy(BlockLengths)

@@ -1,2 +1,0 @@
-ds_list_destroy(TextureSheet)
-ds_list_destroy(TextureNameList)
